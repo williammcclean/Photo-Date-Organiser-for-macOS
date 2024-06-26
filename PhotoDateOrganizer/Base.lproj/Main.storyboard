@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="XfG-lQ-9wD">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Photo Date Organiser-->
+        <scene sceneID="hIz-AP-VOD">
+            <objects>
+                <viewController title="Photo Date Organiser" showSeguePresentationStyle="single" id="XfG-lQ-9wD" customClass="ViewController" customModule="Photo_Date_Organiser" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="m2S-Jp-Qdl">
+                        <rect key="frame" x="0.0" y="0.0" width="300" height="260"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9F0-QH-IzZ">
+                                <rect key="frame" x="29" y="61" width="94" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Select..." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="OnV-Gw-ajs">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="chooseSourceFolder:" target="XfG-lQ-9wD" id="uMm-jg-LC2"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sQP-75-v7h">
+                                <rect key="frame" x="185" y="13" width="102" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Organise" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Sx0-V4-EfG">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="organizeFiles:" target="XfG-lQ-9wD" id="OJV-Di-xS0"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PJp-Wz-3td">
+                                <rect key="frame" x="176" y="61" width="94" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Select..." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Qeh-va-L3p">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="chooseDestinationFolder:" target="XfG-lQ-9wD" id="LFs-6K-FCs"/>
+                                </connections>
+                            </button>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a2M-ft-Zza">
+                                <rect key="frame" x="6" y="224" width="135" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Move From:" id="Yoh-sd-ahy">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="H4w-Wf-VnU">
+                                <rect key="frame" x="154" y="224" width="139" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Organise Into:" id="yKr-kY-3gd">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <box horizontalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="67X-LU-q7A">
+                                <rect key="frame" x="145" y="68" width="5" height="172"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </box>
+                            <progressIndicator fixedFrame="YES" minValue="1" maxValue="100" doubleValue="1" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="W9f-Ef-IhG">
+                                <rect key="frame" x="20" y="19" width="164" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </progressIndicator>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gpf-Rl-VOo">
+                                <rect key="frame" x="18" y="102" width="114" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title=" " id="7TX-Jg-JDW">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ycM-y0-T2W">
+                                <rect key="frame" x="166" y="102" width="116" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title=" " id="4Hq-hA-O1O">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <box fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="duP-aV-Ctf">
+                                <rect key="frame" x="153" y="92" width="137" height="43"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <view key="contentView" id="xna-ML-1WI">
+                                    <rect key="frame" x="4" y="5" width="129" height="23"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                            </box>
+                            <box fixedFrame="YES" title=" " translatesAutoresizingMaskIntoConstraints="NO" id="Pi5-PP-G3W">
+                                <rect key="frame" x="5" y="92" width="137" height="43"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <view key="contentView" id="egL-Ik-Jl3">
+                                    <rect key="frame" x="4" y="5" width="129" height="23"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                            </box>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yKa-i8-oe1">
+                                <rect key="frame" x="38" y="146" width="70" height="70"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="a7V-QT-iKX"/>
+                            </imageView>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Szn-Vt-wTK">
+                                <rect key="frame" x="193" y="146" width="70" height="70"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="7x8-Ns-p5V"/>
+                            </imageView>
+                        </subviews>
+                    </view>
+                    <connections>
+                        <outlet property="destinationFolderButton" destination="PJp-Wz-3td" id="xy9-RQ-hQ9"/>
+                        <outlet property="destinationFolderIcon" destination="Szn-Vt-wTK" id="zYP-jB-8qy"/>
+                        <outlet property="destinationFolderLabel" destination="ycM-y0-T2W" id="AzC-z7-2Eq"/>
+                        <outlet property="folderNameLabel" destination="PJp-Wz-3td" id="HZK-Jg-iTO"/>
+                        <outlet property="organizeButton" destination="sQP-75-v7h" id="Wa8-XW-HOq"/>
+                        <outlet property="progressBar" destination="W9f-Ef-IhG" id="IC4-ua-aMX"/>
+                        <outlet property="sourceFolderButton" destination="9F0-QH-IzZ" id="Hm9-gu-X7O"/>
+                        <outlet property="sourceFolderIcon" destination="yKa-i8-oe1" id="ktf-nh-nOK"/>
+                        <outlet property="sourceFolderLabel" destination="Gpf-Rl-VOo" id="8p5-ly-YAv"/>
+                    </connections>
+                </viewController>
+                <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <menu title="Main Menu" systemMenu="main" id="2OG-0C-GAT">
+                    <items>
+                        <menuItem title="Menu" id="yKN-Gj-zf5">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <menu key="submenu" title="Menu" systemMenu="apple" id="RBI-FP-6wY">
+                                <items>
+                                    <menuItem title="About" id="r2T-0A-dHD">
+                                        <attributedString key="attributedTitle"/>
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem isSeparatorItem="YES" id="77z-ol-AM3"/>
+                                    <menuItem title="Quit PhotoDateOrganizer" keyEquivalent="q" id="Ft9-1Q-qYb"/>
+                                </items>
+                            </menu>
+                        </menuItem>
+                    </items>
+                </menu>
+            </objects>
+            <point key="canvasLocation" x="491" y="217"/>
+        </scene>
+    </scenes>
+</document>
