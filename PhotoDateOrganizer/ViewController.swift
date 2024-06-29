@@ -13,14 +13,15 @@ class ViewController: NSViewController {
     @IBOutlet weak var destinationFolderLabel: NSTextField!
     @IBOutlet weak var sourceFolderIcon: NSImageView!
     @IBOutlet weak var destinationFolderIcon: NSImageView!
+    @IBOutlet weak var folderStructurePopUpButton: NSPopUpButton!
 
-    // Properties for storing selected folders
+    // Properties for storing selected folders and options
     var sourceFolderURL: URL?
     var destinationFolderURL: URL?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // Register drop views for drag and drop
         if sourceDropView != nil {
             sourceDropView.registerForDraggedTypes([.fileURL])
@@ -32,7 +33,7 @@ class ViewController: NSViewController {
             destinationDropView.wantsLayer = true
             destinationDropView.layer?.backgroundColor = NSColor.lightGray.cgColor
         }
-        
+
         // Set default images for folder icons
         if #available(macOS 12.0, *) {
             let folderIcon = NSWorkspace.shared.icon(for: .folder)
@@ -43,6 +44,10 @@ class ViewController: NSViewController {
             sourceFolderIcon.image = folderIcon
             destinationFolderIcon.image = folderIcon
         }
+
+        // Setup folder structure options
+        folderStructurePopUpButton.removeAllItems()
+        folderStructurePopUpButton.addItems(withTitles: ["YYYY-MM-DD", "YYYY/MM-DD", "YYYY/MM/DD"])
     }
 
     // MARK: - IBActions
@@ -78,7 +83,7 @@ class ViewController: NSViewController {
             showAlert(message: "Please select source and destination folders.")
             return
         }
-        
+
         DispatchQueue.global(qos: .background).async {
             self.organizeFilesInFolder(sourceFolderURL: sourceFolderURL, destinationFolderURL: destinationFolderURL)
         }
@@ -89,31 +94,45 @@ class ViewController: NSViewController {
     func organizeFilesInFolder(sourceFolderURL: URL, destinationFolderURL: URL) {
         let fileManager = FileManager.default
         let fileTypes = ["jpg", "jpeg", "png", "gif", "bmp", "tiff", "tif", "mov", "heic", "mp4", "avi", "mkv", "dmg", "aae"]
-        
+
         var totalFiles = 0
-        
+
         do {
             totalFiles = try countFilesInFolder(at: sourceFolderURL, with: fileTypes)
-            
+
             DispatchQueue.main.async {
                 self.progressBar.minValue = 0
                 self.progressBar.maxValue = Double(totalFiles)
                 self.progressBar.doubleValue = 0
             }
-            
+
             try fileManager.enumerateFiles(at: sourceFolderURL, fileTypes: fileTypes) { url, fileType in
-                let creationDate = try url.resourceValues(forKeys: [.creationDateKey]).creationDate!
+                let creationDate = try url.resourceValues(forKeys: [.creationDateKey]).creationDate ?? Date()
                 let year = String(format: "%04d", Calendar.current.component(.year, from: creationDate))
                 let month = String(format: "%02d", Calendar.current.component(.month, from: creationDate))
                 let day = String(format: "%02d", Calendar.current.component(.day, from: creationDate))
-                
-                let destinationFolder = destinationFolderURL.appendingPathComponent("\(year)-\(month)-\(day)")
-                
+
+                // Get selected folder structure format
+                let selectedStructure = self.folderStructurePopUpButton.titleOfSelectedItem
+
+                var destinationFolder: URL
+
+                switch selectedStructure {
+                case "YYYY-MM-DD":
+                    destinationFolder = destinationFolderURL.appendingPathComponent("\(year)-\(month)-\(day)")
+                case "YYYY/MM-DD":
+                    destinationFolder = destinationFolderURL.appendingPathComponent("\(year)").appendingPathComponent("\(month)-\(day)")
+                case "YYYY/MM/DD":
+                    destinationFolder = destinationFolderURL.appendingPathComponent("\(year)").appendingPathComponent("\(month)").appendingPathComponent("\(day)")
+                default:
+                    destinationFolder = destinationFolderURL.appendingPathComponent("\(year)-\(month)-\(day)")
+                }
+
                 do {
                     try fileManager.createDirectory(at: destinationFolder, withIntermediateDirectories: true, attributes: nil)
-                    
+
                     var destinationURL = destinationFolder.appendingPathComponent(url.lastPathComponent)
-                    
+
                     // Ensure unique file name to avoid overwriting
                     var counter = 1
                     while fileManager.fileExists(atPath: destinationURL.path) {
@@ -123,22 +142,22 @@ class ViewController: NSViewController {
                         destinationURL = destinationFolder.appendingPathComponent(newFileName)
                         counter += 1
                     }
-                    
+
                     try fileManager.moveItem(at: url, to: destinationURL)
-                    
+
                     DispatchQueue.main.async {
                         self.progressBar.increment(by: 1)
                     }
-                    
+
                 } catch {
                     print("Error moving file: \(error.localizedDescription)")
                 }
             }
-            
+
             DispatchQueue.main.async {
                 self.showAlert(message: "\(totalFiles) files organised successfully!")
             }
-            
+
         } catch {
             DispatchQueue.main.async {
                 self.showAlert(message: "Error: \(error.localizedDescription)")
@@ -157,11 +176,11 @@ class ViewController: NSViewController {
 
     func countFilesInFolder(at folderURL: URL, with fileTypes: [String]) throws -> Int {
         var count = 0
-        
+
         try FileManager.default.enumerateFiles(at: folderURL, fileTypes: fileTypes) { url, fileType in
             count += 1
         }
-        
+
         return count
     }
 }
@@ -169,40 +188,11 @@ class ViewController: NSViewController {
 extension FileManager {
     func enumerateFiles(at folderURL: URL, fileTypes: [String], handler: (URL, String) throws -> Void) throws {
         let enumerator = self.enumerator(at: folderURL, includingPropertiesForKeys: [.creationDateKey], options: [.skipsHiddenFiles, .skipsPackageDescendants])
-        
+
         while let fileURL = enumerator?.nextObject() as? URL {
             if fileTypes.contains(fileURL.pathExtension.lowercased()) {
                 try handler(fileURL, fileURL.pathExtension.lowercased())
             }
         }
-    }
-}
-
-// MARK: - Drag and Drop
-extension ViewController: NSDraggingDestination {
-
-    func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
-        return .copy
-    }
-
-    func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
-        let pasteboard = sender.draggingPasteboard
-        if let urls = pasteboard.readObjects(forClasses: [NSURL.self], options: nil) as? [URL] {
-            for url in urls {
-                let location = sender.draggingLocation
-                
-                if sourceDropView.frame.contains(view.convert(location, from: nil)) {
-                    self.sourceFolderURL = url
-                    self.sourceFolderLabel.stringValue = url.lastPathComponent
-                    self.sourceFolderIcon.image = NSWorkspace.shared.icon(forFile: url.path)
-                } else if destinationDropView.frame.contains(view.convert(location, from: nil)) {
-                    self.destinationFolderURL = url
-                    self.destinationFolderLabel.stringValue = url.lastPathComponent
-                    self.destinationFolderIcon.image = NSWorkspace.shared.icon(forFile: url.path)
-                }
-            }
-            return true
-        }
-        return false
     }
 }
