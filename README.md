@@ -18,4 +18,6 @@ Supported File Types:
 
 <img width="368" alt="Screenshot 2024-06-29 at 21 05 32" src="https://github.com/williammcclean/Photo-Date-Organiser-for-macOS/assets/41708290/e78e2eae-5fe0-40db-ba0e-ef4752e92b91">
 
+<br />
+
 <img width="302" alt="Screenshot 2024-06-29 at 21 06 49" src="https://github.com/williammcclean/Photo-Date-Organiser-for-macOS/assets/41708290/6aff5140-783a-4d5b-8a2a-f78faa1d6ba5">
